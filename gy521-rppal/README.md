@@ -50,43 +50,6 @@ Raw Accelerometer Data: RawAccelData { x: 16384.0, y: 0.0, z: 16384.0 }
 Normalized Accelerometer Data: RawAccelData { x: 1.0, y: 0.0, z: 1.0 } Roll: 0.00°, Pitch: -45.00°
 ```
 
-## API Documentation
-
-### `Gy521`
-
-#### `new(bus: u8, addr: u16) -> i2c::Result<Self>`
-
-Creates a new instance of the `Gy521` struct.
-
-- **Parameters**:
-  - `bus`: I2C bus number (e.g., `1` for `/dev/i2c-1`).
-  - `addr`: I2C address of the GY-521 sensor (default is `0x68`).
-
-- **Returns**: `Gy521` instance or an I2C error.
-
-#### `wakeup(&self) -> i2c::Result<()>`
-
-Wakes up the GY-521 sensor by writing to the power management register.
-
-- **Returns**: `Ok(())` on success or an I2C error.
-
-#### `read_raw(&self) -> i2c::Result<RawAccelData>`
-
-Reads raw accelerometer data from the sensor.
-
-- **Returns**: `RawAccelData` containing `x`, `y`, and `z` values or an I2C error.
-
-#### `read_raw_poll_pitch(&self) -> i2c::Result<(f64, f64)>`
-
-Reads raw accelerometer data and calculates the roll and pitch angles.
-
-- **Returns**: A tuple containing `(roll, pitch)` in degrees or an I2C error.
-
-### `RawAccelData`
-
-A struct representing raw accelerometer data.
-
- `z: f64` - Acceleration along the Z-axis.
 ## Acknowledgements
 
 - [rppal](https://crates.io/crates/rppal) for providing the I2C communication capabilities.
