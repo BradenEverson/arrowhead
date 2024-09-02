@@ -6,7 +6,7 @@
 
 Add `gy521-rppal` to your `Cargo.toml`:
 
-```rust
+```toml
 [dependencies]
 gy521-rppal = "0.1.0" 
 rppal = "0.19.0"
@@ -28,16 +28,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     gy521.wakeup()?;
     
     // Read raw accelerometer data
-    let mut raw_data = gy521.read_raw()?;
-    println!("Raw Accelerometer Data: {:?}", raw_data);
+    let (mut raw_accel, mut raw_gyro) = gy521.read_raw()?;
+    println!("Raw Accelerometer Data: {:?}", raw_accel);
+    println!("Raw GyroScope Data: {:?}", raw_gyro);
     
     // Normalize to g's
-    raw_data.normalize_to_gs();
-    println!("Normalized Accelerometer Data: {:?}", raw_data);
+    raw_accel.normalize_to_gs();
+    println!("Normalized Accelerometer Data: {:?}", raw_accel);
     
     // Calculate roll and pitch
-    let (roll, pitch) = gy521.read_raw_poll_pitch()?;
-    println!("Roll: {:.2}°, Pitch: {:.2}°", roll, pitch);
+    let ((roll_accel, pitch_accel), (roll_gyro, pitch_gyro)) = gy521.read_raw_poll_pitch()?;
+    println!("Roll (Accel): {:.2}°, Pitch (Accel): {:.2}°", roll_accel, pitch_accel);
+    println!("Roll (Gyro): {:.2}°, Pitch (Gyro): {:.2}°", roll_gyro, pitch_gyro);
     
     Ok(())
 }
@@ -46,12 +48,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 ### Example Output
 
 ```bash
-Raw Accelerometer Data: RawAccelData { x: 16384.0, y: 0.0, z: 16384.0 } 
-Normalized Accelerometer Data: RawAccelData { x: 1.0, y: 0.0, z: 1.0 } Roll: 0.00°, Pitch: -45.00°
+Raw Accelerometer Data: RawAccelData { x: 16384.0, y: 0.0, z: 16384.0 }
+Raw GyroScope Data: RawAccelData { x: 16384.0, y: 0.0, z: 16384.0 }
+Normalized Accelerometer Data: RawAccelData { x: 1.0, y: 0.0, z: 1.0 }
+Roll (Accel): 0.00°, Pitch (Accel): -45.00°
+Roll (Gyro): 0.00°, Pitch (Gyro): -45.00°
 ```
 
 ## Acknowledgements
 
 - [rppal](https://crates.io/crates/rppal) for providing the I2C communication capabilities.
 - [MPU-6050](https://invensense.tdk.com/products/motion-tracking/6-axis/mpu-6050/) for the sensor hardware.
-
