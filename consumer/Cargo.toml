@@ -1,0 +1,8 @@
+[package]
+name = "consumer"
+edition = "2021"
+version.workspace = true
+authors.workspace = true
+
+[dependencies]
+gy521-rppal = {path = "../gy521-rppal"}

@@ -1,5 +1,5 @@
 [workspace]
-members = ["gy521-rppal"]
+members = [ "consumer","gy521-rppal"]
 resolver = "2"
 
 [workspace.package]
