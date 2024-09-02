@@ -6,7 +6,7 @@
 
 Add `gy521-rppal` to your `Cargo.toml`:
 
-```
+```rust
 [dependencies]
 gy521-rppal = "0.1.0" # Replace with the latest version
 rppal = "0.13.3"      # Ensure rppal is included
@@ -16,7 +16,7 @@ rppal = "0.13.3"      # Ensure rppal is included
 
 Here's a basic example demonstrating how to initialize the GY-521 sensor, wake it up, and read accelerometer data along with calculating roll and pitch angles.
 
-```
+```rust
 use std::f64::consts::PI;
 use gy521_rppal::Gy521;
 
@@ -45,7 +45,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 ### Example Output
 
-```
+```bash
 Raw Accelerometer Data: RawAccelData { x: 16384.0, y: 0.0, z: 16384.0 } 
 Normalized Accelerometer Data: RawAccelData { x: 1.0, y: 0.0, z: 1.0 } Roll: 0.00°, Pitch: -45.00°
 ```
