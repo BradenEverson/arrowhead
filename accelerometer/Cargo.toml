@@ -1,0 +1,8 @@
+[package]
+name = "accelerometer"
+edition = "2021"
+version.workspace = true
+authors.workspace = true
+
+[dependencies]
+rppal = "0.19.0"
