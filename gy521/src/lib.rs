@@ -4,18 +4,6 @@ use rppal::i2c::{self, I2c};
 
 pub const CONVERSION_TO_GS: f64 = 16384.0;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let gyro = Gy521::new(1, 0x68)?;
-
-    gyro.wakeup()?;
-    loop {
-        let (roll, pitch) = gyro.read_raw_poll_pitch()?;
-
-        println!("Roll: {:.2}°", roll);
-        println!("Pitch: {:.2}°", pitch);
-    }
-}
-
 #[derive(Debug)]
 pub struct Gy521(I2c);
 
