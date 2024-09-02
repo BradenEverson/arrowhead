@@ -1,0 +1,8 @@
+[package]
+name = "renderer"
+edition = "2021"
+version.workspace = true
+authors.workspace = true
+
+[dependencies]
+bevy = "0.14.1"
