@@ -7,7 +7,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     gyro.wakeup()?;
 
     loop {
-        let (pitch, poll) = gyro.read_raw_poll_pitch()?;
+        let ((_, _), (pitch, poll)) = gyro.read_raw_poll_pitch()?;
 
         println!("Pitch: {:.2}\nPoll: {:.2}", pitch, poll);
     }
