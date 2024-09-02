@@ -8,8 +8,8 @@ Add `gy521-rppal` to your `Cargo.toml`:
 
 ```rust
 [dependencies]
-gy521-rppal = "0.1.0" # Replace with the latest version
-rppal = "0.13.3"      # Ensure rppal is included
+gy521-rppal = "0.1.0" 
+rppal = "0.19.0"
 ```
 
 ## Usage

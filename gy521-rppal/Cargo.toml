@@ -1,5 +1,5 @@
 [package]
-name = "gy521"
+name = "gy521-rppal"
 edition = "2021"
 version.workspace = true
 authors.workspace = true
