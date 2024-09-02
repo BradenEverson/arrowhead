@@ -1,5 +1,5 @@
 [package]
-name = "accelerometer"
+name = "gy521"
 edition = "2021"
 version.workspace = true
 authors.workspace = true
