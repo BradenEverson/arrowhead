@@ -8,7 +8,7 @@ license = "MIT"
 documentation = "https://docs.rs/gy521-rppal"
 readme = "README.md"
 keywords = ["gy521", "rppal", "raspberry-pi", "i2c"]
-categories = ["embedded", "hardware-support", "internet-of-things"]
+categories = ["embedded", "hardware-support"]
 
 [dependencies]
 rppal = "0.19.0"
