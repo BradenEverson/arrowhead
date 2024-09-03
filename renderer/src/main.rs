@@ -42,6 +42,8 @@ impl State {
     }
 }
 
+#[derive(Component)]
+struct MyCube;
 
 fn setup(
     mut commands: Commands,
@@ -55,6 +57,7 @@ fn setup(
             transform: Transform::from_translation(Vec3::ZERO),
             ..default()
         },
+        MyCube,
     ));
 
     commands.spawn(Camera3dBundle {
@@ -68,9 +71,9 @@ fn setup(
     });
 }
 
-fn rotate(mut cubes: Query<&mut Transform>, res: Res<State>) {
+fn rotate(mut cubes: Query<(&mut Transform, &MyCube)>, res: Res<State>) {
     let (pitch, poll) = futures::executor::block_on(res.get_pitch_poll());
-    for mut transform in &mut cubes {
+    for (mut transform, _) in &mut cubes {
         *transform = Transform::from_rotation(Quat::from_euler(
             EulerRot::XYZ,
             pitch.to_radians(),
