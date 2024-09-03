@@ -7,4 +7,10 @@ authors.workspace = true
 [dependencies]
 bevy = { version = "0.14.1", features = ["async-io"] }
 futures = "0.3.30"
+futures-util = { version = "0.3.30", features = ["tokio-io"] }
+http-body-util = "0.1.2"
+hyper = { version = "1.4.1", features = ["full"] }
+hyper-tungstenite = "0.14.0"
+hyper-util = { version = "0.1.7", features = ["full", "tokio"] }
 tokio = { version = "1.40.0", features = ["full"] }
+tokio-tungstenite = "0.23.1"

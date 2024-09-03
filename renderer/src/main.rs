@@ -1,21 +1,35 @@
-
-use std::sync::Arc;
-
 use bevy::prelude::*;
-use tokio::sync::RwLock;
+use hyper::server::conn::http1;
+use hyper_util::rt::TokioIo;
+use renderer::service::{GyroService, GyroState};
+use tokio::net::TcpListener;
 
 #[tokio::main]
 async fn main() {
-    let state = State::default();
+    let state = GyroState::default();
+    let listener = TcpListener::bind("0.0.0.0:7878")
+        .await
+        .expect("Failed to bind to TcpListener on port 7878");
 
-    let mut state_clone = state.clone();
+    let state_clone = state.clone();
     tokio::spawn(async move {
         loop {
-            for x in -180..180 {
-                for y in -180..180 {
-                    state_clone.set_pitch_poll(x as f32, y as f32).await
+            let (socket, _) = listener
+                .accept()
+                .await
+                .expect("Failed to accept incoming connection");
+            let io = TokioIo::new(socket);
+            let service = GyroService::new(state_clone.clone());
+
+            tokio::spawn(async move {
+                if let Err(e) = http1::Builder::new()
+                    .serve_connection(io, service)
+                    .with_upgrades()
+                    .await
+                {
+                    eprintln!("Error serving connection: {}", e);
                 }
-            }
+            });
         }
     });
 
@@ -26,22 +40,6 @@ async fn main() {
         .add_systems(Update, rotate)
         .run();
 }
-
-#[derive(Resource, Default, Clone)]
-pub struct State {
-    rotation: Arc<RwLock<(f32, f32)>>
-}
-
-impl State {
-    pub async fn set_pitch_poll(&mut self, pitch: f32, poll: f32) {
-        *self.rotation.write().await = (pitch, poll)
-    }
-
-    pub async fn get_pitch_poll(&self) -> (f32, f32) {
-        *self.rotation.read().await
-    }
-}
-
 #[derive(Component)]
 struct MyCube;
 
@@ -71,7 +69,7 @@ fn setup(
     });
 }
 
-fn rotate(mut cubes: Query<(&mut Transform, &MyCube)>, res: Res<State>) {
+fn rotate(mut cubes: Query<(&mut Transform, &MyCube)>, res: Res<GyroState>) {
     let (pitch, poll) = futures::executor::block_on(res.get_pitch_poll());
     for (mut transform, _) in &mut cubes {
         *transform = Transform::from_rotation(Quat::from_euler(
