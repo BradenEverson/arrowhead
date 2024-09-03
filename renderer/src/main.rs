@@ -69,9 +69,7 @@ fn setup(
 }
 
 fn rotate(mut cubes: Query<&mut Transform>, res: Res<State>) {
-    println!("Begfin");
     let (pitch, poll) = futures::executor::block_on(res.get_pitch_poll());
-    println!("End");
     for mut transform in &mut cubes {
         *transform = Transform::from_rotation(Quat::from_euler(
             EulerRot::XYZ,
