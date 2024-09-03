@@ -1,18 +1,47 @@
+
+use std::sync::Arc;
+
 use bevy::prelude::*;
+use tokio::sync::RwLock;
 
-#[derive(Component)]
-struct RotatableObject {
-    pitch: f32,
-    poll: f32,
-}
+#[tokio::main]
+async fn main() {
+    let state = State::default();
 
-fn main() {
+    let mut state_clone = state.clone();
+    tokio::spawn(async move {
+        loop {
+            for x in -180..180 {
+                for y in -180..180 {
+                    state_clone.set_pitch_poll(x as f32, y as f32).await
+                }
+            }
+        }
+    });
+
     App::new()
+        .insert_resource(state.clone())
         .add_plugins(DefaultPlugins)
         .add_systems(Startup, setup)
         .add_systems(Update, rotate)
         .run();
 }
+
+#[derive(Resource, Default, Clone)]
+pub struct State {
+    rotation: Arc<RwLock<(f32, f32)>>
+}
+
+impl State {
+    pub async fn set_pitch_poll(&mut self, pitch: f32, poll: f32) {
+        *self.rotation.write().await = (pitch, poll)
+    }
+
+    pub async fn get_pitch_poll(&self) -> (f32, f32) {
+        *self.rotation.read().await
+    }
+}
+
 
 fn setup(
     mut commands: Commands,
@@ -25,10 +54,6 @@ fn setup(
             material: materials.add(Color::WHITE),
             transform: Transform::from_translation(Vec3::ZERO),
             ..default()
-        },
-        RotatableObject {
-            pitch: 45f32,
-            poll: 45f32,
         },
     ));
 
@@ -43,13 +68,16 @@ fn setup(
     });
 }
 
-fn rotate(mut cubes: Query<(&mut Transform, &RotatableObject)>) {
-    for (mut transform, cube) in &mut cubes {
+fn rotate(mut cubes: Query<&mut Transform>, res: Res<State>) {
+    println!("Begfin");
+    let (pitch, poll) = futures::executor::block_on(res.get_pitch_poll());
+    println!("End");
+    for mut transform in &mut cubes {
         *transform = Transform::from_rotation(Quat::from_euler(
             EulerRot::XYZ,
-            (cube.pitch).to_radians(),
-            (cube.poll).to_radians(),
-            (0f32).to_radians(),
+            pitch.to_radians(),
+            poll.to_radians(),
+            0f32.to_radians(),
         ));
     }
 }
