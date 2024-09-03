@@ -46,6 +46,7 @@ impl Service<Request<body::Incoming>> for GyroService {
     fn call(&self, mut req: Request<body::Incoming>) -> Self::Future {
         let mut state = self.state.clone();
         if hyper_tungstenite::is_upgrade_request(&req) {
+            println!("Call");
             let (response, websocket) =
                 hyper_tungstenite::upgrade(&mut req, None).expect("Error upgrading to WebSocket");
             tokio::spawn(async move {
@@ -53,6 +54,7 @@ impl Service<Request<body::Incoming>> for GyroService {
                 let (_, mut reader) = ws.split();
 
                 while let Some(Ok(msg)) = reader.next().await {
+                    println!("Binary received!");
                     match msg {
                         Message::Binary(bin) => {
                             if bin.len() == 8 {
