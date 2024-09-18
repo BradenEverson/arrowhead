@@ -10,7 +10,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     gyro.wakeup()?;
 
     loop {
-        let ((_, _), (pitch, poll)) = gyro.read_raw_poll_pitch()?;
+        let ((pitch, poll), (_, _)) = gyro.read_raw_poll_pitch()?;
 
         let mut buffer = [0u8; 8];
         LittleEndian::write_f32_into(&[pitch as f32, poll as f32], &mut buffer);
