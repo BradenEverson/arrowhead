@@ -12,5 +12,6 @@ The current goal of this project isn't set in stone, it's mostly just a means to
 ### Crates:
 * `consumer`: A simple Pi Program that Reads pitch and poll from a gy521 module and streams it as a sequence of bytes to a websocket server
 * `renderer`: A websocket server/Bevy environment that asynchronously updates pitch and poll values upon receiving binary from `receiver`. Uses this pitch and poll data to rotate a cuboid accordingly
-* `gy521-rppal`:
-* `test_client`: 
+* `gy521-rppal`: An extension crate off of the `rppal` Raspberry Pi Peripheral Crate that allows for a convenient wrapper around i2c communications with the gy521 sensor
+* `test_client`: A test client that allows for arbitrary setting of pitch and poll values for usage on the `renderer`
+
