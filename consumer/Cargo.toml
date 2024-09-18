@@ -6,3 +6,5 @@ authors.workspace = true
 
 [dependencies]
 gy521-rppal = {path = "../gy521-rppal"}
+byteorder = "1.5.0"
+tungstenite = "0.24.0"

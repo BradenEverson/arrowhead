@@ -3,15 +3,16 @@ use tungstenite::{connect, Message};
 use byteorder::{ByteOrder, LittleEndian};
 
 fn main() {
-    let (mut socket, _) = connect("ws://0.0.0.0:7878").expect("Can't connect");
+    let (mut socket, _) = connect("ws://localhost:7878").expect("Can't connect");
 
     loop {
         let (num1, num2) = get_f32_input();
 
         let mut buffer = [0u8; 8];
         LittleEndian::write_f32_into(&[num1, num2], &mut buffer);
+        println!("{}, {}", num1, num2);
 
-        socket.write(Message::Binary(buffer.to_vec())).expect("Failed to send message");
+        socket.send(Message::Binary(buffer.to_vec())).expect("Failed to send message");
 
         println!("Sent: {:?}", buffer);
     }
