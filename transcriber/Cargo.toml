@@ -1,0 +1,8 @@
+[package]
+name = "transcriber"
+edition = "2021"
+version.workspace = true
+authors.workspace = true
+
+[dependencies]
+hc-sr04 = "0.1.2"
