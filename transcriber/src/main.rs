@@ -7,8 +7,10 @@ fn main() {
         Some(23_f32) // Ambient temperature (if `None` defaults to 20.0C)
         ).unwrap();
 
-    match ultrasonic.measure_distance(Unit::Meters).unwrap() {
-        Some(dist) => println!("Distance: {}m", dist),
-        None => println!("Object out of range"),
-    };
+    loop {
+        match ultrasonic.measure_distance(Unit::Meters).unwrap() {
+            Some(dist) => println!("Distance: {}m", dist),
+            None => println!("Object out of range"),
+        };
+    }
 }
