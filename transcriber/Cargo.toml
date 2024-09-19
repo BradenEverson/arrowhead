@@ -5,4 +5,4 @@ version.workspace = true
 authors.workspace = true
 
 [dependencies]
-hc-sr04 = "0.1.2"
+hc-sr04 = {git = "https://github.com/Rahel-A/hc-sr04", branch = "test"}
