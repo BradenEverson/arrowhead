@@ -8,9 +8,9 @@ fn main() {
         ).unwrap();
 
     loop {
-        match ultrasonic.measure_distance(Unit::Meters).unwrap() {
-            Some(dist) => println!("Distance: {}m", dist),
-            None => println!("Object out of range"),
+        match ultrasonic.measure_distance(Unit::Meters) {
+            Ok(Some(dist)) => println!("Distance: {}m", dist),
+            _ => println!("Object out of range"),
         };
     }
 }
