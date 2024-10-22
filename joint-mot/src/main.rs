@@ -9,8 +9,8 @@ const GPIO_PWM_2: u8 = 5;
 const GPIO_PWM_3: u8 = 6;
 
 const PERIOD_MS: u64 = 20;
-const PULSE_MIN_US: u64 = 1200;
-const PULSE_MAX_US: u64 = 1800;
+const PULSE_MIN_US: u64 = 350;
+const PULSE_MAX_US: u64 = 2645;
 
 fn angle_to_pulse(angle: u8) -> u64 {
     let angle = angle.clamp(0, 180);
