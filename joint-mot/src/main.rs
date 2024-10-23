@@ -31,17 +31,19 @@ fn main() -> Result<(), Box<dyn Error>> {
     let mut pin2 = Gpio::new()?.get(GPIO_PWM_2)?.into_output();
     let mut pin3 = Gpio::new()?.get(GPIO_PWM_3)?.into_output();
 
-    set_angle(&mut pin1, 90)?;
-    set_angle(&mut pin2, 45)?;
-    set_angle(&mut pin3, 135)?;
+    loop {
+    //set_angle(&mut pin1, 0)?;
+    //set_angle(&mut pin2, 0)?;
+    set_angle(&mut pin3, 0)?;
 
-    thread::sleep(Duration::from_millis(500));
+    thread::sleep(Duration::from_millis(1500));
 
-    set_angle(&mut pin1, 0)?;
-    set_angle(&mut pin2, 180)?;
-    set_angle(&mut pin3, 90)?;
+    //set_angle(&mut pin1, 180)?;
+    //set_angle(&mut pin2, 180)?;
+    set_angle(&mut pin3, 180)?;
 
-    thread::sleep(Duration::from_millis(500));
+    thread::sleep(Duration::from_millis(1500));
+    }
 
     Ok(())
 }
